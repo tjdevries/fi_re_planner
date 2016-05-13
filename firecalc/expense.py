@@ -3,12 +3,14 @@
 
 
 class Amount:
+
     """
     Amount object. Used to describe different types of amounts on a yearly basis.
 
     For example, a weekly expense of fixed amount will have 52 payments per year,
         so the total cost will be 52 * amount
     """
+
     periods_per_year = {
         'year': 1,
         'month': 12,
@@ -19,7 +21,7 @@ class Amount:
 
     def __init__(self, style, period, amount):
         """
-        Initialize the Amount
+        Initialize the Amount.
 
         Args:
             style (str): An acceptable style of payment. Currently specified by self.styles
@@ -43,7 +45,7 @@ class Amount:
 
     def payment(self, income):
         """
-        Calculates the value for each installment.
+        Calculate the value for each installment.
 
         Args:
             income (float): The income of the person to be considered in percentage based amounts
@@ -61,20 +63,25 @@ class Amount:
 
     def cost(self, income):
         """
-        Returns the yearly monetary cost/value of this item
+        Calculate the yearly monetary cost/value of this item.
+
+        Args:
+            income (float): An income for the person whose expense this will be
         """
         return self.multiplier * self.payment(income)
 
 
 class Expense:
+
     """
-    Expense object. 
+    Expense object.
 
     More to come
     """
+
     def __init__(self, amount: Amount, income: float):
         """
-        Initialize the Expense for a certain category
+        Initialize the Expense for a certain category.
 
         Args:
             amount (Amount): An amount object that will be used in the expenses
