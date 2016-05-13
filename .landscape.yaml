@@ -1,0 +1,5 @@
+doc-warnings: yes
+max-line-length: 120
+python-targets:
+    - 3
+# strictness: veryhigh
