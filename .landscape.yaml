@@ -3,3 +3,5 @@ max-line-length: 120
 python-targets:
     - 3
 strictness: veryhigh
+ignore-paths:
+    - docs
