@@ -42,10 +42,21 @@ class Amount:
         self.amount = amount
 
     def payment(self, income):
+        """
+        Calculates the value for each installment.
+
+        Args:
+            income (float): The income of the person to be considered in percentage based amounts
+
+        Returns:
+            pay (float): The value of the installment.
+        """
         if self.style == '%':
-            return (self.amount / 100) * (income / self.multiplier)
+            pay = (self.amount / 100) * (income / self.multiplier)
         elif self.style == '$':
-            return self.amount
+            pay = self.amount
+
+        return pay
 
 
     def cost(self, income):
@@ -56,5 +67,18 @@ class Amount:
 
 
 class Expense:
-    def __init__(self, amount: Amount):
+    """
+    Expense object. 
+
+    More to come
+    """
+    def __init__(self, amount: Amount, income: float):
+        """
+        Initialize the Expense for a certain category
+
+        Args:
+            amount (Amount): An amount object that will be used in the expenses
+            income (float): An income for the person whose expense this will be
+        """
         self.amount = amount
+        self.income = income
