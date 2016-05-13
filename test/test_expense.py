@@ -5,6 +5,7 @@ import pytest
 
 from firecalc.expense import Amount
 
+
 class TestAmount:
     def test_init_style(self):
         a = Amount('$', 'year', 10)
@@ -15,6 +16,7 @@ class TestAmount:
 
         with pytest.raises(ValueError):
             c = Amount('x', 'year', 10)
+            c
 
     def test_init_period(self):
         periods_per_year = {
@@ -30,6 +32,7 @@ class TestAmount:
 
         with pytest.raises(ValueError):
             a = Amount('$', 'not a date', 10)
+            a
 
     def test_cost(self):
         amount = 10
