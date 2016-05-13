@@ -17,14 +17,18 @@ class Amount:
             self.style = style
 
         if period not in self.periods_per_year.keys():
-            raise ValueError('Period must be a valid period. {0}'.format(self.periods_per_year.keys()))
+            raise ValueError('Period must be a valid period. {0}'.format(list(self.periods_per_year.keys())))
         else:
             self.period = period
             self.multiplier = self.periods_per_year[period]
 
+        # TODO(tjdevries): Check that amount is "good"
+        #   For example, when it's % based, should not allow numbers over 100
+        self.amount = amount
+
     def payment(self, income):
         if self.style == '%':
-            return self.amount / 100 * income
+            return (self.amount / 100) * (income / self.multiplier)
         elif self.style == '$':
             return self.amount
 
