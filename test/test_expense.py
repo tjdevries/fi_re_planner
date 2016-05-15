@@ -54,3 +54,11 @@ class TestAmount:
 
         e = Amount('%', 'day', amount)
         assert(e.cost(income) == amount / 100 * income)
+
+    def test_str(self):
+        amount = 10
+        income = 1000
+
+        # Test printing Amount
+        a = Amount('$', 'year', amount)
+        print(a)

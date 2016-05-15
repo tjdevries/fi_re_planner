@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+Handles all the different expense accounts, (maybe need a different name)
+for all the fire calculations.
+"""
 
 class Amount:
 
@@ -11,9 +15,11 @@ class Amount:
         so the total cost will be 52 * amount
     """
 
+    # Simple setup. May want to adjust this to be exact in the future.
     periods_per_year = {
         'year': 1,
         'month': 12,
+        'week': 52,
         'day': 365,
     }
 
@@ -60,7 +66,6 @@ class Amount:
 
         return pay
 
-
     def cost(self, income):
         """
         Calculate the yearly monetary cost/value of this item.
@@ -69,6 +74,12 @@ class Amount:
             income (float): An income for the person whose expense this will be
         """
         return self.multiplier * self.payment(income)
+
+    def __str__(self):
+        return 'Amount: Style={0}, Period={1}, Amount={2}'.format(self.style, self.period, self.amount)
+
+    def __repr__(self):
+        return '<Amount Obj: {0}, {1}, {2}>'.format(self.style, self.period, self.amount)
 
 
 class Expense:
@@ -79,13 +90,29 @@ class Expense:
     More to come
     """
 
-    def __init__(self, amount: Amount, income: float):
+    def __init__(self, name: str, amount: Amount):
         """
         Initialize the Expense for a certain category.
 
         Args:
+            name (str): The name of the expense
             amount (Amount): An amount object that will be used in the expenses
             income (float): An income for the person whose expense this will be
         """
+        self.name = name
         self.amount = amount
-        self.income = income
+
+    def cost(self, income):
+        """
+        Calculate the yearly monetary cost/value of this expense.
+
+        Args:
+            income (float): An income for the person whose expense this will be
+        """
+        return self.amount.cost(income)
+
+    def __str__(self):
+        return 'Expense {0}: Amount {1}'.format(self.name, self.amount)
+
+    def __repr__(self):
+        return '<Expense Obj: {0}>'.format(self.name)
