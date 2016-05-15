@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-Handles all the different expense accounts, (maybe need a different name)
-for all the fire calculations.
+Handles all the different expense accounts.
+
+Maybe need a different name for all the fire calculations.
 """
+
 
 class Amount:
 
@@ -90,17 +92,23 @@ class Expense:
     More to come
     """
 
-    def __init__(self, name: str, amount: Amount):
+    def __init__(self, name: str, amount: Amount, duration: float = None):
         """
         Initialize the Expense for a certain category.
 
         Args:
             name (str): The name of the expense
             amount (Amount): An amount object that will be used in the expenses
-            income (float): An income for the person whose expense this will be
+            duration
         """
         self.name = name
         self.amount = amount
+
+        if duration:
+            self.duration = duration
+        else:
+            # Set to a big number.
+            self.durationg = 999
 
     def cost(self, income):
         """
@@ -110,6 +118,18 @@ class Expense:
             income (float): An income for the person whose expense this will be
         """
         return self.amount.cost(income)
+
+    def total_cost(self, income):
+        """
+        Calculate the total cost without any other factors.
+
+        This might be useless
+
+        Args:
+            income (float): An income for the person whose expense this will be
+        """
+        return self.cost(income) * self.duration
+
 
     def __str__(self):
         return 'Expense {0}: Amount {1}'.format(self.name, self.amount)
