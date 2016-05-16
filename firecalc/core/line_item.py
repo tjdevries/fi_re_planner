@@ -92,7 +92,7 @@ class Expense:
     More to come
     """
 
-    def __init__(self, name: str, amount: Amount, duration: float = None):
+    def __init__(self, name: str, amount: Amount, duration: float=None):
         """
         Initialize the Expense for a certain category.
 
@@ -129,7 +129,6 @@ class Expense:
             income (float): An income for the person whose expense this will be
         """
         return self.cost(income) * self.duration
-
 
     def __str__(self):
         return 'Expense {0}: Amount {1}'.format(self.name, self.amount)

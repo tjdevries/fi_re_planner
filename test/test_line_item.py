@@ -3,7 +3,7 @@
 
 import pytest
 
-from firecalc.expense import Amount
+from firecalc.core.line_item import Amount
 
 
 class TestAmount:
