@@ -133,7 +133,7 @@ class LineItem:
         return self.cost(income) * self.duration
 
     def __str__(self):
-        return 'LineItem {0}: Amount {1}'.format(self.name, self.amount)
+        return 'LineItem {0}: {1}'.format(self.name, self.amount)
 
     def __repr__(self):
         return '<LineItem Obj: {0}>'.format(self.name)
@@ -165,7 +165,7 @@ class LineGroup:
 
     def add_item(self, item):
         """
-        Add an item to the LineGroup
+        Add an item to the LineGroup.
 
         Args:
             item: This could be LineGroup, LineItem, or a list of either
@@ -189,3 +189,25 @@ class LineGroup:
             total += item.cost(income)
 
         return total
+
+    def _print_subitems(self, item, depth):
+        """
+        Private print function for subitems.
+
+        Args:
+            item: The item to print
+            depth (int): The number of tabs to place in front of the subitem
+        """
+        if hasattr(item, 'print'):
+            return '\t' * depth + item.print(depth + 1)
+        else:
+            return '\t' * depth + str(item)
+
+    def print(self, depth=0):
+        rep = 'LineGroup {0}:'.format(self.name)
+
+        for item in self.items:
+            rep += '\n'
+            rep += self._print_subitems(item, depth + 1)
+
+        return rep
