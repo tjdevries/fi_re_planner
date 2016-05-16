@@ -84,17 +84,17 @@ class Amount:
         return '<Amount Obj: {0}, {1}, {2}>'.format(self.style, self.period, self.amount)
 
 
-class Expense:
+class LineItem:
 
     """
-    Expense object.
+    LineItem object.
 
     More to come
     """
 
     def __init__(self, name: str, amount: Amount, duration: float=None):
         """
-        Initialize the Expense for a certain category.
+        Initialize the LineItem for a certain category.
 
         Args:
             name (str): The name of the expense
@@ -131,7 +131,7 @@ class Expense:
         return self.cost(income) * self.duration
 
     def __str__(self):
-        return 'Expense {0}: Amount {1}'.format(self.name, self.amount)
+        return 'LineItem {0}: Amount {1}'.format(self.name, self.amount)
 
     def __repr__(self):
-        return '<Expense Obj: {0}>'.format(self.name)
+        return '<LineItem Obj: {0}>'.format(self.name)
