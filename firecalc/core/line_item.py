@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Handles all the different expense accounts.
+Handles all the different line item accounts.
 
 Maybe need a different name for all the fire calculations.
 """
@@ -13,7 +13,7 @@ class Amount:
     """
     Amount object. Used to describe different types of amounts on a yearly basis.
 
-    For example, a weekly expense of fixed amount will have 52 payments per year,
+    For example, a weekly line item of fixed amount will have 52 payments per year,
         so the total cost will be 52 * amount
     """
 
@@ -73,7 +73,7 @@ class Amount:
         Calculate the yearly monetary cost/value of this item.
 
         Args:
-            income (float): An income for the person whose expense this will be
+            income (float): An income for the person whose line item this will be
         """
         return self.multiplier * self.payment(income)
 
@@ -87,9 +87,11 @@ class Amount:
 class LineItem:
 
     """
-    LineItem object.
+    LineItem is an object that describes a single line item in a budget.
 
-    More to come
+    This class will be the basis for all other types of budget items. I plan
+    on having the other items (expenses, tax-advantaged investments, etc.)
+    inheriting from this class.
     """
 
     def __init__(self, name: str, amount: Amount, duration: float=None):
@@ -97,9 +99,9 @@ class LineItem:
         Initialize the LineItem for a certain category.
 
         Args:
-            name (str): The name of the expense
-            amount (Amount): An amount object that will be used in the expenses
-            duration
+            name (str): The name of the line item
+            amount (Amount): An amount object that will be used in the line items
+            duration (float): The length of time in which this item will be valid
         """
         self.name = name
         self.amount = amount
@@ -112,10 +114,10 @@ class LineItem:
 
     def cost(self, income):
         """
-        Calculate the yearly monetary cost/value of this expense.
+        Calculate the yearly monetary cost/value of this line item.
 
         Args:
-            income (float): An income for the person whose expense this will be
+            income (float): An income for the person whose line item this will be
         """
         return self.amount.cost(income)
 
@@ -126,7 +128,7 @@ class LineItem:
         This might be useless
 
         Args:
-            income (float): An income for the person whose expense this will be
+            income (float): An income for the person whose line item this will be
         """
         return self.cost(income) * self.duration
 
@@ -135,3 +137,55 @@ class LineItem:
 
     def __repr__(self):
         return '<LineItem Obj: {0}>'.format(self.name)
+
+
+class LineGroup:
+
+    """
+    LineGroup is a collection of LineItems (or children) or LineGroup objects.
+
+    This allows the user to create subcategories, such as:
+    Food -
+        Groceries
+        Restaurant
+        Fast Food
+        etc.
+    """
+
+    def __init__(self, name: str, items: list=[]):
+        """
+        Initialize the LineGroup.
+
+        Args:
+            name (str): The name of the line group
+            items (list): Optional list containing a combination of line groups or line items
+        """
+        self.name = name
+        self.items = list(items)
+
+    def add_item(self, item):
+        """
+        Add an item to the LineGroup
+
+        Args:
+            item: This could be LineGroup, LineItem, or a list of either
+                of those objects or their children
+        """
+        if not isinstance(item, list):
+            item = [item]
+
+        self.items.extend(item)
+
+    def cost(self, income):
+        """
+        Return the cost of all the items in the group.
+
+        Args:
+            income (float): The income of the person to be considered in percentage based amounts
+        """
+        total = 0
+
+        for item in self.items:
+            total += item.cost(income)
+
+        return total

@@ -3,7 +3,7 @@
 
 import pytest
 
-from firecalc.core.line_item import Amount
+from firecalc.core.line_item import Amount, LineItem, LineGroup
 
 
 class TestAmount:
@@ -55,10 +55,45 @@ class TestAmount:
         e = Amount('%', 'day', amount)
         assert(e.cost(income) == amount / 100 * income)
 
+    @pytest.mark.skip(reason="no way of currently testing this")
     def test_str(self):
         amount = 10
-        income = 1000
 
         # Test printing Amount
         a = Amount('$', 'year', amount)
         print(a)
+
+
+class TestLineItem:
+    def test_cost(self):
+        amount = 100
+        income = 1000
+        a = Amount('$', 'year', amount)
+        l = LineItem('Food', a, 2)
+
+        assert(l.cost(income) == amount * 1)
+
+
+class TestLineGroup:
+    def test_init(self):
+        # Test with no items
+        a = LineGroup('a')
+        assert(a.items == [])
+
+        # Test with some items
+        i_a = Amount('$', 'year', 10)
+        i_b = Amount('$', 'week', 20)
+        line_items = [i_a, i_b]
+        b = LineGroup('b', line_items)
+        assert(b.items == [i_a, i_b])
+
+        line_items.append('hello world')
+        assert(b.items == [i_a, i_b])
+
+        # TODO(tjdevries): Add a check for only acceptable items in items
+
+    def test_add_item(self):
+        g = LineGroup('Food')
+
+    def test_cost(self):
+        g = LineGroup('Food')
