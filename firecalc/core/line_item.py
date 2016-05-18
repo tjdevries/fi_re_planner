@@ -204,6 +204,12 @@ class LineGroup:
             return '\t' * depth + str(item)
 
     def print(self, depth=0):
+        """
+        Basic print function.
+
+        This function handles printing to terminal so that I can look at the
+        line group.
+        """
         rep = 'LineGroup {0}:'.format(self.name)
 
         for item in self.items:

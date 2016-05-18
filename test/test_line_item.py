@@ -94,6 +94,56 @@ class TestLineGroup:
 
     def test_add_item(self):
         g = LineGroup('Food')
+        assert(g.items == [])
+
+        a_a = Amount('$', 'year', 10)
+        i_a = LineItem('Fast Food', a_a, 2)
+        a_b = Amount('$', 'week', 20)
+        i_b = LineItem('Groceries', a_b, 2)
+        line_items = [i_a, i_b]
+        g.add_item(line_items)
+        assert(g.items == [i_a, i_b])
+
+        line_items.append('hello world')
+        assert(g.items == [i_a, i_b])
 
     def test_cost(self):
+        a_a = Amount('$', 'year', 10)
+        i_a = LineItem('Fast Food', a_a, 2)
+        a_b = Amount('$', 'week', 20)
+        i_b = LineItem('Groceries', a_b, 2)
+        line_items = [a_a, a_b]
+
+        g = LineGroup('Food', line_items)
+        assert(g.cost(1000) == i_a.cost(1000) + i_b.cost(1000))
+
+        i_c = Amount('%', 'week', 20)
+        g.add_item(i_c)
+        assert(g.cost(1000) == i_a.cost(1000) + i_b.cost(1000) + i_c.cost(1000))
+
+    @pytest.mark.skip(reason='No good way to test this currently')
+    def test_print(self):
+        a_a = Amount('$', 'year', 10)
+        i_a = LineItem('Fast Food', a_a, 2)
+        a_b = Amount('$', 'week', 20)
+        i_b = LineItem('Groceries', a_b, 2)
+        line_items = [a_a, a_b]
+        line_items = [i_a, i_b]
+
         g = LineGroup('Food')
+        print()
+        print(g.print())
+
+        g.add_item(line_items)
+        print()
+        print(g.print())
+
+        subgroup = LineGroup('Cakes')
+        a_c = Amount('$', 'year', 25)
+        i_c = LineItem('Birthday', a_c, 5)
+        a_d = Amount('$', 'year', 30)
+        i_d = LineItem('Celebration', a_d, 10)
+        subgroup.add_item([i_c, i_d])
+        g.add_item(subgroup)
+        print()
+        print(g.print())
